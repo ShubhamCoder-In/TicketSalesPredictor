@@ -54,26 +54,26 @@ The outcomes of this model provide several benefits to stakeholders in the event
 - **hours_until_event:** The number of hours until the event.
 - **event_time_zone:** The time zone of the event.
 
-## Getting Started
+### Getting Started
 
-### Step 1: Download the Dataset
+## Step 1: Download the Dataset
 1. Download the dataset from the following link:
    [Download Dataset](https://drive.usercontent.google.com/open?id=1aQhPO1yHMxuTMWvAonNvrYV4rGN-PRjp&authuser=0)
 2. Rename the downloaded file to `recode.csv`.
 
-### Step 2: Setup Your Environment
+## Step 2: Setup Your Environment
 1. **Install Python:** Ensure you have Python 3.x installed. You can download it from [python.org](https://www.python.org/downloads/).
 2. **Install Required Libraries:** Create a `requirements.txt` file with the following contents:
-
+   
 ## Step 3: Running the Model
 Import the necessary libraries and load your dataset:
-python
-Copy code
+```bash
 import pandas as pd
 df = pd.read_csv('recode.csv')
+````
 Train the model using machine learning techniques. An example command to fit a Random Forest model could be:
-python
-Copy code
+```bash
 from sklearn.ensemble import RandomForestRegressor
 model = RandomForestRegressor()
 model.fit(X_train, y_train)
+```

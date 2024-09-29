@@ -1,0 +1,442 @@
+notebookId = "7b07a26c-2382-461a-9498-2464f6a4a77d"
+notebookName = "Zero True"
+
+[cells.53e42a97-19c1-4995-8a8c-d584e1a02684]
+cellName = ""
+cellType = "code"
+hideCell = "False"
+hideCode = "False"
+expandCode = "False"
+showTable = "False"
+nonReactive = "False"
+code = """
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.model_selection import train_test_split, GridSearchCV
+from sklearn.linear_model import LinearRegression
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.metrics import mean_squared_error, mean_absolute_error"""
+
+[cells.27f2891a-ecb4-4b5c-aaac-5c8fae23f7b5]
+cellName = ""
+cellType = "code"
+hideCell = "False"
+hideCode = "False"
+expandCode = "False"
+showTable = "False"
+nonReactive = "False"
+code = """
+# Load the dataset
+data = pd.read_csv('recode.csv')
+
+# Inspect the first few rows
+print(data.head())
+"""
+
+[cells.314955a8-6ff0-4881-b8ef-fe76d5eb8b0b]
+cellName = ""
+cellType = "code"
+hideCell = "False"
+hideCode = "False"
+expandCode = "False"
+showTable = "False"
+nonReactive = "False"
+code = """
+# Summary of the dataset
+print(data.info())
+
+# Basic statistics of the numerical columns
+print(data.describe().astype(int))
+# Check for missing values in each column
+print(data.isnull().sum())"""
+
+[cells.8c7f57a7-a681-4f80-8eec-1bb99dec5618]
+cellName = ""
+cellType = "code"
+hideCell = "False"
+hideCode = "False"
+expandCode = "False"
+showTable = "False"
+nonReactive = "False"
+code = """
+# Replace the underscores with correct delimiters for date and time
+data['timestamp'] = data['timestamp'].str.replace('_', ':')  
+data['timestamp'] = data['timestamp'].str.replace(':', '-', 2)  
+data['timestamp'] = data['timestamp'].str.replace('T', ' ', 1)  
+
+# Convert the corrected string to datetime with TimeZone utc
+data['timestamp'] = pd.to_datetime(data['timestamp'],utc=True)
+
+print(data['timestamp'].head(5))"""
+
+[cells.23256b7c-d2e5-44d8-b4fd-e8260c08afff]
+cellName = ""
+cellType = "code"
+hideCell = "False"
+hideCode = "False"
+expandCode = "False"
+showTable = "False"
+nonReactive = "False"
+code = """
+# Convert event_date to datetime if necessary
+data['event_date'] = pd.to_datetime(data['event_date'])
+
+# Calculate time until event (in days)
+data['days_until_event'] = (data['event_date'] - data['timestamp']).dt.days
+data['hours_until_event'] = (data['event_date'] - data['timestamp']).dt.total_seconds() / 3600
+
+print(data[['timestamp', 'event_date', 'days_until_event', 'hours_until_event']])"""
+
+[cells.c14e970f-e609-430b-b2f9-2565b9dee6cb]
+cellName = ""
+cellType = "code"
+hideCell = "False"
+hideCode = "False"
+expandCode = "False"
+showTable = "False"
+nonReactive = "False"
+code = """
+print(data['days_until_event'].describe().astype(int))"""
+
+[cells.ebbd3644-10ce-49e6-bbdd-9d2cc17f25a4]
+cellName = ""
+cellType = "code"
+hideCell = "False"
+hideCode = "False"
+expandCode = "False"
+showTable = "False"
+nonReactive = "False"
+code = """
+data = data[data['days_until_event'] <= 414]
+print(data['days_until_event'].describe().astype(int))"""
+
+[cells.322d1191-8d00-4633-8c59-ec64c4fd7bf4]
+cellName = ""
+cellType = "code"
+hideCell = "False"
+hideCode = "False"
+expandCode = "False"
+showTable = "False"
+nonReactive = "False"
+code = """
+# plt.hist(data['days_until_event'], bins=40, color='blue', edgecolor='black')
+# plt.title('Days Until Event Distribution After Removing Outliers')
+# plt.xlabel('Days Until Event')
+# plt.ylabel('Frequency')
+# plt.show()"""
+
+[cells.ea2957f7-a738-4698-a295-9771dd02eb2d]
+cellName = ""
+cellType = "code"
+hideCell = "False"
+hideCode = "False"
+expandCode = "False"
+showTable = "False"
+nonReactive = "False"
+code = """
+data['months_until_event'] = data['days_until_event'] // 30
+data['weeks_until_event'] = data['days_until_event'] // 7"""
+
+[cells.a160fb88-72d4-4af9-a341-3f1135ee45cb]
+cellName = ""
+cellType = "code"
+hideCell = "False"
+hideCode = "False"
+expandCode = "False"
+showTable = "False"
+nonReactive = "False"
+code = """
+# plt.figure(figsize=(10,6))
+# plt.hist(data['weeks_until_event'], bins=50, color='green', alpha=0.7)
+# plt.title('Weeks Until Event Distribution')
+# plt.xlabel('Weeks Until Event')
+# plt.ylabel('Frequency')
+# plt.show()
+
+# plt.figure(figsize=(10,6))
+# plt.hist(data['months_until_event'], bins=30, color='orange', alpha=0.7)
+# plt.title('Months Until Event Distribution')
+# plt.xlabel('Months Until Event')
+# plt.ylabel('Frequency')
+# plt.show()"""
+
+[cells.28095197-b5ad-481d-aee6-0916a9af3c78]
+cellName = ""
+cellType = "code"
+hideCell = "False"
+hideCode = "False"
+expandCode = "False"
+showTable = "False"
+nonReactive = "False"
+code = """
+"""
+
+[cells.2188e8c4-f962-4bc5-b703-aa015a4ecfd4]
+cellName = ""
+cellType = "code"
+hideCell = "False"
+hideCode = "False"
+expandCode = "False"
+showTable = "False"
+nonReactive = "False"
+code = """
+"""
+
+[cells.db98befc-feb3-428b-8ae8-b91585c51831]
+cellName = ""
+cellType = "code"
+hideCell = "False"
+hideCode = "False"
+expandCode = "False"
+showTable = "False"
+nonReactive = "False"
+code = """
+"""
+
+[cells.082fbd34-9fa6-4034-88cb-7b74d7e8097e]
+cellName = ""
+cellType = "code"
+hideCell = "False"
+hideCode = "False"
+expandCode = "False"
+showTable = "False"
+nonReactive = "False"
+code = """
+data['remaning_tickets'] = data['availability_standard'] + data['availability_resale']
+data_cleaned = data[data['remaning_tickets'] <= data['capacity']]
+print(data_cleaned.describe().astype(int))"""
+
+[cells.bc21fddf-f34f-4ece-b2b1-93737d3382bb]
+cellName = ""
+cellType = "code"
+hideCell = "False"
+hideCode = "False"
+expandCode = "False"
+showTable = "False"
+nonReactive = "False"
+code = """
+# fig, axs = plt.subplots(1,3,figsize=(15,5))
+# sns.scatterplot(x='capacity',y='remaning_tickets',data=data_cleaned,ax=axs[0])
+# sns.scatterplot(x='capacity',y='availability_standard',data=data_cleaned,ax=axs[1])
+# sns.scatterplot(x='capacity',y='availability_resale',data=data_cleaned,ax=axs[2])"""
+
+[cells.cb283c37-25e2-4302-897a-fbe4e49bc19c]
+cellName = ""
+cellType = "code"
+hideCell = "False"
+hideCode = "False"
+expandCode = "False"
+showTable = "False"
+nonReactive = "False"
+code = """
+"""
+
+[cells.8365c0c0-98de-415c-bb35-1d054a8987dd]
+cellName = ""
+cellType = "code"
+hideCell = "False"
+hideCode = "False"
+expandCode = "False"
+showTable = "False"
+nonReactive = "False"
+code = """
+data_cleaned['eight_per_capacity'] = data_cleaned['capacity']*0.8
+data_cleaned['sold_tickets'] = data_cleaned['capacity'] - data_cleaned['remaning_tickets']
+sold_ticket_80p = data_cleaned[(data_cleaned['sold_tickets'] > 0.8 * data_cleaned['capacity'])&(data_cleaned['capacity']<20000)]
+print(sold_ticket_80p.shape)
+
+
+sold_ticket_80p['sold_percentage'] = ((sold_ticket_80p['capacity'] - sold_ticket_80p['remaning_tickets']) / sold_ticket_80p['capacity']) * 100
+show_sold_group = sold_ticket_80p.groupby('show_id')
+
+show_list = sold_ticket_80p['show_id'].unique()
+last_time_sold = pd.DataFrame([])
+for show in show_list:
+    show_entrys = show_sold_group.get_group(show)
+    current_sold_show = show_entrys[(show_entrys['timestamp']==show_entrys['timestamp'].max())]
+    last_time_sold = pd.concat([last_time_sold,current_sold_show],axis=0,ignore_index=True)
+"""
+
+[cells.387f92d0-b30c-4879-af36-470b27f5b662]
+cellName = ""
+cellType = "code"
+hideCell = "False"
+hideCode = "False"
+expandCode = "False"
+showTable = "False"
+nonReactive = "False"
+code = """
+highly_sold_shows = last_time_sold[last_time_sold['sold_percentage']>95][['show_id','venue_id','section_id','timestamp', 'event_date', 'remaning_tickets', 'capacity','sold_tickets','sold_percentage','days_until_event','hours_until_event','event_time_zone']]
+print(highly_sold_shows.head(10))"""
+
+[cells.8af61a79-657c-4227-89b5-2cfbca874469]
+cellName = ""
+cellType = "code"
+hideCell = "False"
+hideCode = "False"
+expandCode = "False"
+showTable = "False"
+nonReactive = "False"
+code = """
+# plt.figure(figsize=(40, 6))
+# sns.barplot(x='show_id', y='sold_percentage', data=highly_sold_shows, palette='viridis')
+# plt.title('Sold Percentage for Each Show')
+# plt.xticks(rotation=45)
+# plt.ylabel('Sold Percentage (%)')
+# plt.xlabel('Show ID')
+# plt.grid(axis='y')
+# plt.show()"""
+
+[cells.f36e0cdd-e4dc-431d-b8d3-e4ca25500b08]
+cellName = ""
+cellType = "code"
+hideCell = "False"
+hideCode = "False"
+expandCode = "False"
+showTable = "False"
+nonReactive = "False"
+code = """
+# plt.figure(figsize=(10, 6))
+# sns.histplot(x='event_time_zone', data=highly_sold_shows,bins=30, palette='viridis')
+# plt.title('time zone Frequency distribution')
+# plt.xticks(rotation=45)
+# plt.ylabel('frequency')
+# plt.xlabel('event time zone')
+# plt.grid(axis='y')
+# plt.show()"""
+
+[cells.29466228-3803-4fb2-a94d-03ab254fdb77]
+cellName = ""
+cellType = "code"
+hideCell = "False"
+hideCode = "False"
+expandCode = "False"
+showTable = "False"
+nonReactive = "False"
+code = """
+# fig, axs = plt.subplots(1,2,figsize=(15, 5))
+# sns.regplot(y='capacity',x='remaning_tickets', data=highly_sold_shows,x_ci='sd',order=1, ax=axs[0])
+# sns.regplot(y='capacity',x='sold_tickets', data=highly_sold_shows,x_ci='sd',order=1, ax=axs[1])"""
+
+[cells.4ef1dabe-513e-467f-9a8a-d8d4b1280629]
+cellName = ""
+cellType = "code"
+hideCell = "False"
+hideCode = "False"
+expandCode = "False"
+showTable = "False"
+nonReactive = "False"
+code = """
+sns.relplot(x='capacity',y='remaning_tickets', data=highly_sold_shows,col='event_time_zone', kind='line',col_wrap=3)"""
+
+[cells.b46998a7-5625-4419-92a8-580c1e7a0008]
+cellName = ""
+cellType = "code"
+hideCell = "False"
+hideCode = "False"
+expandCode = "False"
+showTable = "False"
+nonReactive = "False"
+code = """
+"""
+
+[cells.b5cad83f-5503-4bc5-baef-cb2b12736211]
+cellName = ""
+cellType = "code"
+hideCell = "False"
+hideCode = "False"
+expandCode = "False"
+showTable = "False"
+nonReactive = "False"
+code = """
+highly_sold_shows.to_csv('higher_sold_event_show.csv') #save recorde and predict sold tricket"""
+
+[cells.e150a9b8-3373-4c60-ab18-619193e4c673]
+cellName = ""
+cellType = "code"
+hideCell = "False"
+hideCode = "False"
+expandCode = "False"
+showTable = "False"
+nonReactive = "False"
+code = """
+"""
+
+[cells.d84e5ed0-659a-4bba-9a71-325a83fe5ad8]
+cellName = ""
+cellType = "code"
+hideCell = "False"
+hideCode = "False"
+expandCode = "False"
+showTable = "False"
+nonReactive = "False"
+code = """
+"""
+
+[cells.76e847df-1a79-4070-bef5-33b8d47e49cf]
+cellName = ""
+cellType = "code"
+hideCell = "False"
+hideCode = "False"
+expandCode = "False"
+showTable = "False"
+nonReactive = "False"
+code = """
+# Visualizing Predictions vs Actual
+# plt.figure(figsize=(10, 6))
+# plt.scatter(y_test, y_pred, alpha=0.5)
+# plt.plot([y.min(), y.max()], [y.min(), y.max()], 'r--', lw=2)  # Diagonal line
+# plt.xlabel('Actual Sold Tickets')
+# plt.ylabel('Predicted Sold Tickets')
+# plt.title('Actual vs Predicted Sold Tickets')
+# plt.show()"""
+
+[cells.6c417f1b-29ea-4cb4-bd05-1d59920846b5]
+cellName = ""
+cellType = "code"
+hideCell = "False"
+hideCode = "False"
+expandCode = "False"
+showTable = "False"
+nonReactive = "False"
+code = """
+residuals = y_test - y_pred
+
+# plt.figure(figsize=(10, 6))
+# sns.histplot(residuals, bins=30, kde=True)
+# plt.title('Residuals Distribution')
+# plt.xlabel('Residuals')
+# plt.ylabel('Frequency')
+# plt.axvline(0, color='red', linestyle='--')
+# plt.show()"""
+
+[cells.4a5ef5ac-9bb0-4769-8877-14f045dd2bba]
+cellName = ""
+cellType = "code"
+hideCell = "False"
+hideCode = "False"
+expandCode = "False"
+showTable = "False"
+nonReactive = "False"
+code = """
+# Check feature importance from the RandomForestRegressor
+feature_importances = model.feature_importances_
+
+# Create a DataFrame for better visualization
+importance_df = pd.DataFrame({'Feature': X.columns, 'Importance': feature_importances})
+importance_df = importance_df.sort_values(by='Importance', ascending=False)
+print(importance_df)"""
+
+[cells.1674ac60-ec27-4849-831d-f4fca317e7bb]
+cellName = ""
+cellType = "code"
+hideCell = "False"
+hideCode = "False"
+expandCode = "False"
+showTable = "False"
+nonReactive = "False"
+code = """
+"""
+

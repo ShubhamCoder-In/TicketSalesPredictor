@@ -58,7 +58,7 @@ The outcomes of this model provide several benefits to stakeholders in the event
 
 ## Step 1: Download the Dataset
 1. Download the dataset from the following link:
-   [Download Dataset](https://drive.usercontent.google.com/open?id=1aQhPO1yHMxuTMWvAonNvrYV4rGN-PRjp&authuser=0)
+   [Download Dataset](https://drive.google.com/file/d/1aQhPO1yHMxuTMWvAonNvrYV4rGN-PRjp/view)
 2. Rename the downloaded file to `recode.csv`.
 
 ## Step 2: Setup Your Environment
